@@ -12,32 +12,32 @@ public class App {
     public static void main(String[] args) {
         // Création de l'EntityManagerFactory
         EntityManagerFactory emf = Persistence.createEntityManagerFactory("hibernate-demo");
-        
+
         // Insertion de produits
         insererProduits(emf);
-        
+
         // Lecture des produits
         lireProduits(emf);
-        
+
         // Fermeture de l'EntityManagerFactory
         emf.close();
     }
-    
+
     private static void insererProduits(EntityManagerFactory emf) {
         EntityManager em = emf.createEntityManager();
         try {
             em.getTransaction().begin();
-            
+
             // Création de quelques produits
             Produit p1 = new Produit("Ecran Ultra HD 4K", new BigDecimal("389.90"));
             Produit p2 = new Produit("Casque Sans Fil ANC", new BigDecimal("249.50"));
             Produit p3 = new Produit("Enceinte Bluetooth", new BigDecimal("129.00"));
-            
+
             // Persistance des produits
             em.persist(p1);
             em.persist(p2);
             em.persist(p3);
-            
+
             em.getTransaction().commit();
             System.out.println("Produits insérés avec succès !");
         } catch (Exception e) {
@@ -49,19 +49,19 @@ public class App {
             em.close();
         }
     }
-    
+
     private static void lireProduits(EntityManagerFactory emf) {
         EntityManager em = emf.createEntityManager();
         try {
             // Requête JPQL pour récupérer tous les produits
             List<Produit> produits = em.createQuery("SELECT p FROM Produit p", Produit.class)
-                                      .getResultList();
-            
+                    .getResultList();
+
             System.out.println("\nListe des produits :");
             for (Produit produit : produits) {
                 System.out.println(produit);
             }
-            
+
             // Recherche d'un produit par ID
             System.out.println("\nRecherche du produit avec ID=2 :");
             Produit produit = em.find(Produit.class, 2L);
